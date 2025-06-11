@@ -19,21 +19,23 @@ def load_data(file_path):
 
 
 def get_animals_string(animals_data):
-    """Generate an HTML string that lists animal information."""
-    output = ""
+  """Generate an HTML string that lists animal information."""
+  output = ""
 
-    output += '<ul class="cards">'
-    for animal in animals_data:
-        output += '<li class="cards__item">'
-        output += f"Name: {animal['name']}<br>"
-        output += f"Diet: {animal['characteristics']['diet']}<br>"
-        output += f"Location: {animal['locations'][0]}<br>"
-        if 'type' in animal['characteristics']:
-            output += f"Type: {animal['characteristics']['type']}"
-        output += '</li>'
-    output += '</ul>'
+  output += '<ul class="cards">'
+  for animal in animals_data:
+      output += '<li class="cards__item">'
+      output += f'  <div class="card__title">{animal["name"]}</div>'
+      output += '  <p class="card__text">'
+      output += f'    <strong>Diet:</strong> {animal["characteristics"]["diet"]}<br/>'
+      output += f'    <strong>Location:</strong> {animal["locations"][0]}<br/>'
+      if "type" in animal["characteristics"]:
+          output += f'    <strong>Type:</strong> {animal["characteristics"]["type"]}<br/>'
+      output += '  </p>'
+      output += '</li>'
+  output += '</ul>'
 
-    return output
+  return output
 
 
 def main():
