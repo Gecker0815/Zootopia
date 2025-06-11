@@ -18,12 +18,15 @@ def load_data(file_path):
         return json.load(handle)
 
 
-def get_animals_string(animals_data):
+def get_animals_string(animals_data, skin_type):
     """Generate an HTML string that lists animal information."""
     output = ""
 
     output += '<ul class="cards">'
     for animal in animals_data:
+        if skin_type is not None and animal["characteristics"]["type"] != skin_type:
+          continue
+         
         output += '<li class="cards__item">'
         output += f'  <div class="card__title">{animal["name"]}</div>'
         output += '  <div class="card__text">'
@@ -40,10 +43,40 @@ def get_animals_string(animals_data):
     return output
 
 
+def choose_animal_skin_type(animals_data):
+    """Prompts the user to select an animal skin type from a dynamically generated list."""
+    skin_types_list = []
+
+    for animal in animals_data:
+        skin_type = animal["characteristics"]["skin_type"]
+        if skin_type not in skin_types_list:
+            skin_types_list.append(skin_type)
+      
+    print("****Animal skin type list****")
+    print("0. without skin type")
+    for index, skin_type in enumerate(skin_types_list):
+        print(f"{index + 1}. {skin_type}")
+
+    while True:
+        skin_type_number = input("Enter skin type number: ")
+
+        if skin_type_number.isdigit():
+            selected_index = int(skin_type_number)
+            if selected_index == 0:
+                return None
+            elif 1 <= selected_index <= len(skin_types_list):
+                return skin_types_list[selected_index - 1]
+            else:
+                print("Number out of range! Please enter a valid number.")
+        else:
+            print("Please enter a number!")
+
+
 def main():
     """Main function to process animal data and generate an HTML file."""
     animals_data = load_data('animals_data.json')
-    output = get_animals_string(animals_data)
+    skin_type = choose_animal_skin_type(animals_data)
+    output = get_animals_string(animals_data, skin_type)
     animal_template = read_animals_template()
     animal_template = animal_template.replace("__REPLACE_ANIMALS_INFO__", output)
     write_animals_html(animal_template)
