@@ -24,7 +24,7 @@ def get_animals_string(animals_data, skin_type):
 
     output += '<ul class="cards">'
     for animal in animals_data:
-        if skin_type is not None and animal["characteristics"]["type"] != skin_type:
+        if skin_type is not None and animal["characteristics"].get("type") != skin_type:
           continue
          
         output += '<li class="cards__item">'
