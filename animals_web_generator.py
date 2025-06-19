@@ -2,7 +2,7 @@ import json
 
 def read_animals_template():
     """Reads and returns the content of the animal template HTML file."""
-    with open("animals_template.html", "r") as fileobj:
+    with open("animals_template.html", "r", encoding="utf-8") as fileobj:
         return fileobj.read()
 
 
@@ -14,7 +14,7 @@ def write_animals_html(new_animal_template):
 
 def load_data(file_path):
     """Loads data from a JSON file."""
-    with open(file_path, "r") as handle:
+    with open(file_path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
